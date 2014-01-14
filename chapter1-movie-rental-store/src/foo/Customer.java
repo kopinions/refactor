@@ -1,5 +1,6 @@
 package foo;
 
+import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -11,6 +12,7 @@ public class Customer {
     private String _name;
     private Vector _rentals = new Vector();
     private CustomerType _type;
+    private double _discountRating = 0.8;
 
     public Customer(String name, CustomerType type) {
         _name = name;
@@ -35,10 +37,14 @@ public class Customer {
             result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getRenterAmount()) + "\n";
         }
 
-        result += "Amount owed is " + String.valueOf(getTotalRenterAmount()) + "\n";
+        result += "Amount owed is " + formatAmount(getTotalRenterAmount()) + "\n";
         result += "You earned " + String.valueOf(getTotalRenterPoints()) + " frequent renter points";
 
         return result;
+    }
+
+    public String formatAmount(double amount) {
+        return new DecimalFormat(".#").format(amount);
     }
 
     private double getTotalRenterAmount() {
@@ -50,6 +56,9 @@ public class Customer {
             totalAmount += each.getRenterAmount();
         }
 
+        if (_type.isPremium()) {
+            totalAmount *= _discountRating;
+        }
         return totalAmount;
     }
 

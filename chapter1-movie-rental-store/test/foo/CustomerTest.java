@@ -10,13 +10,13 @@ public class CustomerTest {
 
     @Test
     public void testCustomer() {
-        Customer c = new Customer("David", new CustomerType(CustomerType.PREMIUM));
+        Customer c = new Customer("David", new CustomerType(CustomerType.REGULAR));
         assertNotNull(c);
     }
 
     @Test
     public void testAddRental() {
-        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.PREMIUM));
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
         Rental rental1 = new Rental(new Movie("Gone with the Wind", Movie.REGULAR), 3); // 3 day rental
 
         customer2.addRental(rental1);
@@ -24,14 +24,14 @@ public class CustomerTest {
 
     @Test
     public void testGetName() {
-        Customer c = new Customer("David", new CustomerType(CustomerType.PREMIUM));
+        Customer c = new Customer("David", new CustomerType(CustomerType.REGULAR));
 
         assertEquals("David", c.getName());
     }
 
     @Test
     public void testStatementForRegularMovie() {
-        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.PREMIUM));
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
         Rental rental1 = new Rental(new Movie("Gone with the Wind", Movie.REGULAR), 3); // 3 day rental
 
         customer2.addRental(rental1);
@@ -46,7 +46,7 @@ public class CustomerTest {
 
     @Test
     public void testStatementForNewReleaseMovie() {
-        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.PREMIUM));
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
 
         Rental rental1 = new Rental(new Movie("Star Wars", Movie.NEW_RELEASE), 3); // 3 day rental
         customer2.addRental(rental1);
@@ -61,7 +61,7 @@ public class CustomerTest {
 
     @Test
     public void testStatementForChildrensMovie() {
-        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.PREMIUM));
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
 
         Rental rental1 = new Rental(new Movie("Madagascar", Movie.CHILDRENS), 3); // 3 day rental
         customer2.addRental(rental1);
@@ -75,8 +75,8 @@ public class CustomerTest {
     }
 
     @Test
-    public void testStatementForManyMovies() {
-        Customer customer1 = new Customer("David", new CustomerType(CustomerType.PREMIUM));
+    public void testStatementForManyMoviesForRegularCustomer() {
+        Customer customer1 = new Customer("David", new CustomerType(CustomerType.REGULAR));
 
         Rental rental1 = new Rental(new Movie("Madagascar", Movie.CHILDRENS), 6); // 6 day rental
         Rental rental2 = new Rental(new Movie("Star Wars", Movie.NEW_RELEASE), 2); // 2 day rental
@@ -91,6 +91,28 @@ public class CustomerTest {
                 "\tStar Wars\t6.0\n" +
                 "\tGone with the Wind\t11.0\n" +
                 "Amount owed is 23.0\n" +
+                "You earned 4 frequent renter points";
+
+        assertEquals(expected, customer1.statement());
+    }
+
+    @Test
+    public void testStatementForManyMoviesForPremiumCustomer() {
+        Customer customer1 = new Customer("David", new CustomerType(CustomerType.PREMIUM));
+
+        Rental rental1 = new Rental(new Movie("Madagascar", Movie.CHILDRENS), 6); // 6 day rental
+        Rental rental2 = new Rental(new Movie("Star Wars", Movie.NEW_RELEASE), 2); // 2 day rental
+        Rental rental3 = new Rental(new Movie("Gone with the Wind", Movie.REGULAR), 8); // 8 day rental
+
+        customer1.addRental(rental1);
+        customer1.addRental(rental2);
+        customer1.addRental(rental3);
+
+        String expected = "Rental Record for David\n" +
+                "\tMadagascar\t6.0\n" +
+                "\tStar Wars\t6.0\n" +
+                "\tGone with the Wind\t11.0\n" +
+                "Amount owed is 18.4\n" +
                 "You earned 4 frequent renter points";
 
         assertEquals(expected, customer1.statement());

@@ -8,7 +8,7 @@ package foo;
  * To change this template use File | Settings | File Templates.
  */
 public class CustomerType {
-    private final static int REGULAR = 0;
+    public final static int REGULAR = 0;
     public final static int PREMIUM = 1;
     private int type;
 
