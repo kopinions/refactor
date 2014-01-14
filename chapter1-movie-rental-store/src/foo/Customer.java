@@ -1,5 +1,6 @@
 package foo;
 
+import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -11,8 +12,16 @@ public class Customer {
     private String _name;
     private Vector _rentals = new Vector();
 
-    public Customer(String name) {
+    public static final int REGULAR = 0;
+    public static final int PREMIUM = 1;
+
+    private int customerType;
+    private double discountRating;
+
+    public Customer(String name, int customerType, double discountRating) {
         _name = name;
+        this.customerType = customerType;
+        this.discountRating = discountRating;
     }
 
     public void addRental(Rental arg) {
@@ -32,11 +41,26 @@ public class Customer {
 
             result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getRenterAmount()) + "\n";
         }
+        if (customerType == Customer.REGULAR) {
+            result += "Amount owed is " + formatAmount(getTotalRenterAmount()) + "\n";
 
-        result += "Amount owed is " + String.valueOf(getTotalRenterAmount()) + "\n";
+        } else {
+            result += "Amount owed is " + formatAmount(getDiscountAmount(getTotalRenterAmount())) + "\n";
+        }
+
         result += "You earned " + String.valueOf(getTotalRenterPoints()) + " frequent renter points";
 
+        if (customerType == Customer.REGULAR) {
+            result += "\nYou can register to premium to save money";
+        } else {
+            result += "\nYou have saved " + formatAmount(getTotalRenterAmount() - getDiscountAmount(getTotalRenterAmount()));
+        }
+
         return result;
+    }
+
+    private String formatAmount(double amount) {
+        return new DecimalFormat(".#").format(amount);
     }
 
     private double getTotalRenterAmount() {
@@ -47,8 +71,16 @@ public class Customer {
 
             totalAmount += each.getRenterAmount();
         }
-
         return totalAmount;
+    }
+
+    private double getDiscountAmount(double totalAmount) {
+        double discountAmount = totalAmount;
+        if (customerType == Customer.PREMIUM) {
+            discountAmount *= discountRating;
+        }
+
+        return discountAmount;
     }
 
     private int getTotalRenterPoints() {
@@ -57,12 +89,9 @@ public class Customer {
 
         while (rentals.hasMoreElements()) {
             Rental each = (Rental) rentals.nextElement();
-
-
             frequentRenterPoints += each.getFrequentPoint();
         }
 
         return frequentRenterPoints;
     }
-
 }
