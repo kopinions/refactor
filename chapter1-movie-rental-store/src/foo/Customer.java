@@ -10,9 +10,11 @@ public class Customer {
 
     private String _name;
     private Vector _rentals = new Vector();
+    private CustomerType _type;
 
-    public Customer(String name) {
+    public Customer(String name, CustomerType type) {
         _name = name;
+        _type = type;
     }
 
     public void addRental(Rental arg) {
