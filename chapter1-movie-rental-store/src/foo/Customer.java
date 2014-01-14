@@ -12,7 +12,6 @@ public class Customer {
     private String _name;
     private Vector _rentals = new Vector();
     private CustomerType _type;
-    private double _discountRating = 0.8;
 
     public Customer(String name, CustomerType type) {
         _name = name;
@@ -57,7 +56,7 @@ public class Customer {
         }
 
         if (_type.isPremium()) {
-            totalAmount *= _discountRating;
+            totalAmount *= _type.getDiscountRating();
         }
         return totalAmount;
     }
@@ -75,5 +74,4 @@ public class Customer {
 
         return frequentRenterPoints;
     }
-
 }
