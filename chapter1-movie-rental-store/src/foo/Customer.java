@@ -12,16 +12,11 @@ public class Customer {
     private String _name;
     private Vector _rentals = new Vector();
 
-    public static final int REGULAR = 0;
-    public static final int PREMIUM = 1;
+    private CustomerType type;
 
-    private int customerType;
-    private double discountRating;
-
-    public Customer(String name, int customerType, double discountRating) {
+    public Customer(String name, CustomerType type) {
         _name = name;
-        this.customerType = customerType;
-        this.discountRating = discountRating;
+        this.type = type;
     }
 
     public void addRental(Rental arg) {
@@ -41,7 +36,7 @@ public class Customer {
 
             result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getRenterAmount()) + "\n";
         }
-        if (customerType == Customer.REGULAR) {
+        if (type.isRegularCustomer()) {
             result += "Amount owed is " + formatAmount(getTotalRenterAmount()) + "\n";
 
         } else {
@@ -50,7 +45,7 @@ public class Customer {
 
         result += "You earned " + String.valueOf(getTotalRenterPoints()) + " frequent renter points";
 
-        if (customerType == Customer.REGULAR) {
+        if (type.isRegularCustomer()) {
             result += "\nYou can register to premium to save money";
         } else {
             result += "\nYou have saved " + formatAmount(getTotalRenterAmount() - getDiscountAmount(getTotalRenterAmount()));
@@ -76,8 +71,8 @@ public class Customer {
 
     private double getDiscountAmount(double totalAmount) {
         double discountAmount = totalAmount;
-        if (customerType == Customer.PREMIUM) {
-            discountAmount *= discountRating;
+        if (!type.isRegularCustomer()) {
+            discountAmount *= type.getDiscountRating();
         }
 
         return discountAmount;

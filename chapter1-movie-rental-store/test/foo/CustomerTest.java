@@ -10,13 +10,13 @@ public class CustomerTest {
 
     @Test
     public void testCustomer() {
-        Customer c = new Customer("David", Customer.REGULAR, 0.8);
+        Customer c = new Customer("David", new CustomerType(CustomerType.REGULAR));
         assertNotNull(c);
     }
 
     @Test
     public void testAddRental() {
-        Customer customer2 = new Customer("Sallie", Customer.REGULAR, 0.8);
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
         Movie movie1 = new Movie("Gone with the Wind", Movie.REGULAR);
         Rental rental1 = new Rental(movie1, 3); // 3 day rental
         customer2.addRental(rental1);
@@ -24,13 +24,13 @@ public class CustomerTest {
 
     @Test
     public void testGetName() {
-        Customer c = new Customer("David", Customer.REGULAR, 0.8);
+        Customer c = new Customer("David", new CustomerType(CustomerType.REGULAR));
         assertEquals("David", c.getName());
     }
 
     @Test
     public void testStatementForRegularMovie() {
-        Customer customer2 = new Customer("Sallie", Customer.REGULAR, 0.8);
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
         Movie movie1 = new Movie("Gone with the Wind", Movie.REGULAR);
         Rental rental1 = new Rental(movie1, 3); // 3 day rental
         customer2.addRental(rental1);
@@ -45,7 +45,7 @@ public class CustomerTest {
 
     @Test
     public void testStatementForNewReleaseMovie() {
-        Customer customer2 = new Customer("Sallie", Customer.REGULAR, 0.8);
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
         Movie movie1 = new Movie("Star Wars", Movie.NEW_RELEASE);
         Rental rental1 = new Rental(movie1, 3); // 3 day rental
         customer2.addRental(rental1);
@@ -60,7 +60,7 @@ public class CustomerTest {
 
     @Test
     public void testStatementForChildrensMovie() {
-        Customer customer2 = new Customer("Sallie", Customer.REGULAR, 0.8);
+        Customer customer2 = new Customer("Sallie", new CustomerType(CustomerType.REGULAR));
         Movie movie1 = new Movie("Madagascar", Movie.CHILDRENS);
         Rental rental1 = new Rental(movie1, 3); // 3 day rental
         customer2.addRental(rental1);
@@ -75,7 +75,7 @@ public class CustomerTest {
 
     @Test
     public void testStatementForManyMovies() {
-        Customer customer1 = new Customer("David", Customer.REGULAR, 0.8);
+        Customer customer1 = new Customer("David", new CustomerType(CustomerType.REGULAR));
         Movie movie1 = new Movie("Madagascar", Movie.CHILDRENS);
         Rental rental1 = new Rental(movie1, 6); // 6 day rental
         Movie movie2 = new Movie("Star Wars", Movie.NEW_RELEASE);
@@ -98,7 +98,7 @@ public class CustomerTest {
 
     @Test
     public void testStatementForManyMoviesForPremiumCustomer() {
-        Customer customer1 = new Customer("David", Customer.PREMIUM, 0.8);
+        Customer customer1 = new Customer("David", new CustomerType(CustomerType.PREMIUM));
         Movie movie1 = new Movie("Madagascar", Movie.CHILDRENS);
         Rental rental1 = new Rental(movie1, 6); // 6 day rental
         Movie movie2 = new Movie("Star Wars", Movie.NEW_RELEASE);
